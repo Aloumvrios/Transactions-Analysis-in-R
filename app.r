@@ -8,8 +8,10 @@ df = read.table(my.tableName, sep = ";",header = TRUE)
 df$Ποσό <- as.numeric(gsub(",", ".", gsub("\\.", "", df$Ποσό)))
 #get subset of Amount where prefix is X and replace with the negative value
 df$Ποσό[df$Πρόσημο.ποσού == "Χ"] <- -df$Ποσό[df$Πρόσημο.ποσού == "Χ"]
-df[order(as.Date(df$Ημ.νία,format = "%d/%m/%y")),]
+reorder(df$Ημ.νία, df$Ποσό)
+df<-df[order(as.Date(df$Ημ.νία,format = "%d/%m/%Y")),,drop=FALSE]
 View(df)
 attach(df)
 plot(df$Ημ.νία,cumsum(df$Ποσό),type = "o", col="blue")
+plot(reorder(df$Ημ.νία, df$Ποσό),cumsum(df$Ποσό),type = "o", col="blue")
 sapply(df,mode)
